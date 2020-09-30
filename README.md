@@ -1,1 +1,1 @@
-# washu-c2h
+# washu-c2h-frontend
