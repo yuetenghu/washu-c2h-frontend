@@ -1,31 +1,27 @@
 import React, { Component } from "react";
 import GoogleMapReact from "google-map-react";
-import { GOOGLE_MAPS_API_KEY } from "../config/config";
-
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
+import { GOOGLE_MAPS_API_KEY } from "../config/secret";
+import MapMarkerComponent from "./map_marker/MapMarkerComponent";
 
 class TripDetailComponent extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-
-        }
-    }
+    // constructor(props) {
+    //     super(props);
+    // }
 
     static defaultProps = {
         center: {
-            lat: 59.95,
-            lng: 30.33
+            lat: 42.447558,
+            lng: -76.482747
         },
-        zoom: 11
+        zoom: 12
     };
 
     render() {
         return (
             <>
-                <h4>Start time: [Oct/6 8:00pm]</h4>
-                <h4>Passcode: [OLD789]</h4>
-                <h5>Total: [5], Arrived: [1]</h5>
+                <h4>Start time: {this.props.tripDetails.startTime.toISOString()}</h4>
+                {this.props.tripDetails.passCode && <h4>Passcode: <code>{this.props.tripDetails.passCode}</code></h4>}
+                <h5>Total: {this.props.tripDetails.totalAddrs}, Arrived: {this.props.tripDetails.arrivedAddrs}</h5>
                 {/* Important! Always set the container height explicitly */}
                 <div style={{ height: '50vh', width: '100%' }}>
                     <GoogleMapReact
@@ -33,11 +29,9 @@ class TripDetailComponent extends Component {
                         defaultCenter={this.props.center}
                         defaultZoom={this.props.zoom}
                     >
-                        <AnyReactComponent
-                            lat={59.955413}
-                            lng={30.337844}
-                            text="My Marker"
-                        />
+                        {this.props.tripDetails.route.map(
+                            (addr) => <MapMarkerComponent key={addr.id} lat={addr.lat} lng={addr.lng} text={addr.id.toString()} />
+                        )}
                     </GoogleMapReact>
                 </div>
             </>

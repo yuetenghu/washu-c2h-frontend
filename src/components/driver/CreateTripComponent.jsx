@@ -1,18 +1,43 @@
 import React, { Component } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { toLocalISOString } from "../../utils/TimeUtils";
+import DataService from "../../api/DataService"
 
 class CreateTripComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            startTime: ""
+            startTime: "",
+            minStartDatetime: toLocalISOString(new Date(Date.now() - 1000 * 60 * 60 * 3)).substring(0, 16),
+            maxStartDatetime: toLocalISOString(new Date(Date.now() + 1000 * 60 * 60 * 3)).substring(0, 16)
+        };
+        this.validate = this.validate.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+    }
+
+    validate(values) {
+        let errors = {};
+        if (values.startTime === "") errors.startTime = "Please choose a time"
+        else if (values.startTime < this.state.minStartDatetime || values.startTime > this.state.maxStartDatetime) {
+            errors.startTime = "Start time must be between "
+                + this.state.minStartDatetime.replace("T", " ")
+                + " and "
+                + this.state.maxStartDatetime.replace("T", " ");
         }
+        return errors;
+    }
+
+    onSubmit(values) {
+        if (window.confirm("Schedule at time: " + values.startTime.replace("T", " ") + " ?")) {
+            // TODO: Change below to actual API call and .then
+            let response = DataService.driverCreateTrip(values.startTime);
+            this.props.history.push("/driver/trip/" + response);
+        }
+        return;
     }
 
     render() {
         let { startTime } = this.state;
-        const minStartDatetime =  new Date(Date.now() - 1000 * 60 * 60 * 3).toISOString().substring(0, 16);
-        const maxStartDatetime =  new Date(Date.now() + 1000 * 60 * 60 * 3).toISOString().substring(0, 16);
         return (
             <>
                 <h4>Create a new trip</h4>
@@ -28,17 +53,18 @@ class CreateTripComponent extends Component {
                         {
                             (props) => (
                                 <Form>
-                                    <ErrorMessage name="surname" component="div" className="alert alert-warning" />
-                                    <ErrorMessage name="givenName" component="div" className="alert alert-warning" />
+                                    <ErrorMessage name="startTime" component="div" className="alert alert-warning" />
                                     <fieldset className="form-group">
                                         <label>Start time</label>
-                                        <Field className="form-control" type="datetime-local" min={minStartDatetime} max={maxStartDatetime} step="900" name="startTime" />
+                                        <Field className="form-control" type="datetime-local" min={this.state.minStartDatetime} max={this.state.maxStartDatetime} name="startTime" />
                                     </fieldset>
-                                    <button className="btn btn-success" type="submit">Create</button>
+                                    <a href="/rider/trip" className="m-1 btn btn-secondary">⇦ Back</a>
+                                    <button className="m-1 btn btn-success" type="submit">Create</button>
                                 </Form>
                             )
                         }
                     </Formik>
+
                 </div>
             </>
         )
