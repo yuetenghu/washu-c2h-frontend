@@ -17,6 +17,8 @@ class FillAddrComponent extends Component {
             addrError: ""
         }
         this.validate = this.validate.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+        this.onContinue = this.onContinue.bind(this);
     };
 
     static defaultProps = {
@@ -31,10 +33,8 @@ class FillAddrComponent extends Component {
         let errors = {};
         if (values.addr.length <= 4) {
             errors.addr = "Address must have at least 4 letters";
-            return errors;
-        } else {
-            this.checkAddr(values);
         }
+        return errors;
     }
 
     checkAddr(values) {
@@ -55,7 +55,36 @@ class FillAddrComponent extends Component {
     }
 
     onSubmit(values) {
+        this.checkAddr(values);
+    }
 
+    onContinue() {
+        console.log(this.state);
+        let rider = {
+            surname: this.props.location.state.surname,
+            givenName: this.props.location.state.givenName,
+            status: this.props.location.state.status,
+            station: this.props.location.state.station
+        }
+        DataService.riderCreateRider(rider)
+            .then(response => {
+                console.log(response.data);
+                let tripId = this.props.location.state.tripId;
+                let addr = {
+                    riderId: response.data.id,
+                    tripId: tripId,
+                    addr: this.state.addr,
+                    lat: this.state.lat,
+                    lng: this.state.lng
+                };
+                DataService.riderCreateAddr(tripId, addr)
+                    .then(response => {
+                        console.log(response.data);
+                        this.props.history.push(`/rider/trip/${tripId}`);
+                    })
+                    .catch(e => console.log(e));
+            })
+            .catch(e => console.log(e));
     }
 
     render() {
@@ -108,7 +137,7 @@ class FillAddrComponent extends Component {
                 <p>If marker location is:</p>
                 <p><b>Incorrect</b>: Please modify address and retry.</p>
                 <p><b>Correct</b>: Click the button below to continue.</p>
-                <a href={`/rider/trip/${this.props.location.state.tripId}`} className="btn btn-success">Continue</a>
+                <button className="btn btn-success" onClick={this.onContinue}>Continue</button>
             </>
         );
     }
