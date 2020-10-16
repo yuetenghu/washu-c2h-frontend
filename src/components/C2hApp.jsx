@@ -12,6 +12,7 @@ import VerifyTripComponent from "./rider/VerifyTripComponent"
 import FillFormComponent from "./rider/FillFormComponent";
 import FillAddrComponent from "./rider/FillAddrComponent";
 import RiderTripViewComponent from "./rider/RiderTripViewComponent";
+import LogOutComponent from "./LogOutComponent";
 
 class C2hApp extends Component {
     render() {
@@ -21,13 +22,14 @@ class C2hApp extends Component {
                     <HeaderComponent />
                     <Switch>
                         <Route path="/" exact component={HomeComponent} />
+                        <Route path="/log-out" component={LogOutComponent} />
 
                         <Route path="/driver/login" component={DriverLoginComponent} />
-                        <Route path="/driver/trip/11" component={DriverTripViewComponent} />
+                        <Route path="/driver/trip/:tripId" component={DriverTripViewComponent} />
                         <Route path="/driver/trip" component={TripListComponent} />
                         <Route path="/driver/create-trip" component={CreateTripComponent} />
 
-                        <Route path="/rider/trip/11" component={RiderTripViewComponent} />
+                        <Route path="/rider/trip/:tripId" component={RiderTripViewComponent} />
                         <Route path="/rider/trip" component={TripListComponent} />
                         <Route path="/rider/verify-trip" component={VerifyTripComponent} />
                         <Route path="/rider/fill-form" component={FillFormComponent} />

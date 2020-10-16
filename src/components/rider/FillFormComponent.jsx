@@ -41,6 +41,7 @@ class FillFormComponent extends Component {
     }
 
     render() {
+        console.log(this.props.location.state.tripId);
         let { surname, givenName, status, station } = this.state;
         return (
             <>

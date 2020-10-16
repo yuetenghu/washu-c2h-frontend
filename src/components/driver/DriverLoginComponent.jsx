@@ -26,19 +26,37 @@ class DriverLoginComponent extends Component {
     }
 
     onSubmit(values) {
+        AuthService.driverAuth(values.surname, values.givenName)
+            .then((response) => {
+                AuthService.loginSuccessful(values.surname, values.givenName, ROLE.DRIVER, response.data.id);
+                this.setState({
+                    hasLoginFailed: false,
+                    showSuccessMsg: true
+                });
+                this.props.history.push("/driver/trip");
+            })
+            .catch((e) => {
+                this.setState({
+                    hasLoginFailed: true,
+                    showSuccessMsg: false
+                });
+            })
+    }
+
+    onSubmitDummy(values) {
         // Dummy data: Doctor Who
         if (values.surname.trim().toLowerCase() === "who" && values.givenName.trim().toLowerCase() === "doctor") {
             AuthService.loginSuccessful(values.surname.trim(), values.givenName.trim(), ROLE.DRIVER);
             this.setState({
                 hasLoginFailed: false,
                 showSuccessMsg: true
-            })
+            });
             this.props.history.push("/driver/trip");
         } else {
             this.setState({
                 hasLoginFailed: true,
                 showSuccessMsg: false
-            })
+            });
         }
     }
 

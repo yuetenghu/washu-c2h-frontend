@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { toLocalISOString } from "../../utils/TimeUtils";
+import TimeUtils from "../../utils/TimeUtils";
+import AuthService from "../../api/AuthService";
 import DataService from "../../api/DataService"
 
 class CreateTripComponent extends Component {
@@ -8,8 +9,8 @@ class CreateTripComponent extends Component {
         super(props);
         this.state = {
             startTime: "",
-            minStartDatetime: toLocalISOString(new Date(Date.now() - 1000 * 60 * 60 * 3)).substring(0, 16),
-            maxStartDatetime: toLocalISOString(new Date(Date.now() + 1000 * 60 * 60 * 3)).substring(0, 16)
+            minStartDatetime: TimeUtils.toLocalISOString(new Date(Date.now() - 1000 * 60 * 60 * 3)).substring(0, 16),
+            maxStartDatetime: TimeUtils.toLocalISOString(new Date(Date.now() + 1000 * 60 * 60 * 3)).substring(0, 16)
         };
         this.validate = this.validate.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -29,9 +30,14 @@ class CreateTripComponent extends Component {
 
     onSubmit(values) {
         if (window.confirm("Schedule at time: " + values.startTime.replace("T", " ") + " ?")) {
-            // TODO: Change below to actual API call and .then
-            let response = DataService.driverCreateTrip(values.startTime);
-            this.props.history.push("/driver/trip/" + response);
+            let driverId = AuthService.getLoggedInUserId();
+            DataService.driverCreateTrip(driverId, new Date(values.startTime).toISOString())
+                .then(response => {
+                    this.props.history.push("/driver/trip/" + response.data.id);
+                })
+                .catch(e => console.log(e));
+            // this.props.history.push("/driver/trip/" + response);
+
         }
         return;
     }
