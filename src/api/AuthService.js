@@ -1,5 +1,5 @@
 import axios from "axios";
-import { C2H_API_URL } from "./ApiConfig"
+import { C2H_API_URL, C2H_API_URL_JPA } from "./ApiConfig"
 
 export const GIVEN_NAME_SESSION_KEY = "givenName";
 export const USERID = "userid";
@@ -9,7 +9,7 @@ export const ADDR_ID = "addrId";
 
 class AuthService {
     driverAuth(surname, givenName) {
-        return axios.post(`${C2H_API_URL}/driver/auth`, { surname, givenName });
+        return axios.post(`${C2H_API_URL_JPA}/driver/auth`, { surname, givenName });
     }
 
     isUserLoggedIn() {

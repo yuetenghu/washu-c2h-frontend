@@ -31,7 +31,11 @@ class CreateTripComponent extends Component {
     onSubmit(values) {
         if (window.confirm("Schedule at time: " + values.startTime.replace("T", " ") + " ?")) {
             let driverId = AuthService.getLoggedInUserId();
-            DataService.driverCreateTrip(driverId, new Date(values.startTime).toISOString())
+            let trip = {
+                id: -1,  // This is to be ignored by backend, and replaced by @GeneratedValue
+                startTime: new Date(values.startTime).toISOString()
+            }
+            DataService.driverCreateTrip(driverId, trip)
                 .then(response => {
                     this.props.history.push("/driver/trip/" + response.data.id);
                 })

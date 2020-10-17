@@ -62,8 +62,8 @@ class DriverTripViewComponent extends Component {
                         </tbody>}
                     </table>
                 </div>
-                <button className="m-1 btn btn btn-secondary">⇦ Back to list</button>
-                <button className="m-1 btn btn btn-success">Refresh</button>
+                <a href="/rider/trip" className="m-2 btn btn btn-secondary">⇦ Back to list</a>
+                <button className="m-1 btn btn btn-success" onClick={this.refreshTripDetails}>Refresh</button>
                 <button className="m-1 btn btn btn-info">Send feedback</button>
             </>
         )
