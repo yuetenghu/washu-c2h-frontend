@@ -24,3 +24,5 @@ yarn-error.log*
 
 # Secret, keys
 secret.js
+localhost.crt
+localhost.key
