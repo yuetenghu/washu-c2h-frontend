@@ -41,11 +41,12 @@ class DriverTripViewComponent extends Component {
         return (
             <>
                 {Object.keys(this.state.tripDetails).length > 0 && <TripDetailComponent {...this.state} />}
+                <div className="alert alert-primary" role="alert">Please keep this tab open until your arrival</div>
                 <div className="container">
                     <table className="table table-striped">
                         <thead>
                             <tr>
-                                <th>id</th>
+                                <th>No</th>
                                 <th>Address</th>
                                 <th>Status</th>
                             </tr>
@@ -54,9 +55,9 @@ class DriverTripViewComponent extends Component {
                             {this.state.tripDetails.route.map(
                                 (addr) =>
                                     <tr key={addr.id} className={(addr.hasArrived) ? "table-success" : ""}>
-                                        <td>{addr.id}</td>
-                                        <td><a target="_blank" rel="noopener noreferrer" href={`https://maps.google.com/?q=${addr.addr}`}>{addr.addr}</a></td>
-                                        <td>{addr.hasArrived ? "Arrived" : "En-route"}</td>
+                                        <td>{this.state.tripDetails.route.indexOf(addr) + 1}</td>
+                                        <td>{(addr.id === parseInt(sessionStorage.getItem("addrId"))) ? <button class="btn btn-outline-info btn-sm">You</button> : ""}<a target="_blank" rel="noopener noreferrer" href={`https://maps.google.com/?q=${addr.addr}`}>{addr.addr}</a></td>
+                                        <td>{(addr.hasArrived) ? "Arrived" : "En-route"}</td>
                                     </tr>
                             )}
                         </tbody>}

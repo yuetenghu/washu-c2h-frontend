@@ -64,7 +64,7 @@ class DriverTripViewComponent extends Component {
                     <table className="table table-striped">
                         <thead>
                             <tr>
-                                <th>id</th>
+                                <th>No</th>
                                 <th>Address</th>
                                 <th>Status</th>
                             </tr>
@@ -73,7 +73,7 @@ class DriverTripViewComponent extends Component {
                             {this.state.tripDetails.route.map(
                                 (addr) =>
                                     <tr key={addr.id} className={(addr.hasArrived) ? "table-success" : ""}>
-                                        <td>{addr.id}</td>
+                                        <td>{this.state.tripDetails.route.indexOf(addr) + 1}</td>
                                         <td><a target="_blank" rel="noopener noreferrer" href={`https://maps.google.com/?q=${addr.addr}`}>{addr.addr}</a></td>
                                         <td>
                                             {addr.hasArrived ? "Arrived" : <>En-route <button className="m-1 btn btn-info btn-sm" onClick={() => this.finishAddr(addr.id)}>✓ Finish</button></>}
