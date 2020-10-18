@@ -1,5 +1,5 @@
 import axios from "axios";
-import { C2H_API_URL, C2H_API_URL_JPA } from "./ApiConfig"
+import { C2H_API_URL_JPA } from "./ApiConfig"
 
 export const GIVEN_NAME_SESSION_KEY = "givenName";
 export const USERID = "userid";

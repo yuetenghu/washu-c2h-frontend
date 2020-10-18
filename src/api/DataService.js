@@ -1,5 +1,5 @@
 import axios from "axios";
-import { C2H_API_URL, C2H_API_URL_JPA, GEOCODING_API_URL } from "./ApiConfig";
+import { C2H_API_URL_JPA, GEOCODING_API_URL } from "./ApiConfig";
 
 class DataService {
     // Only for driver
