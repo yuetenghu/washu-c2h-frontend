@@ -3,7 +3,9 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import GoogleMapReact from "google-map-react";
 import { GOOGLE_MAPS_API_KEY } from "../../config/secret";
 import DataService from "../../api/DataService";
+import AuthService from "../../api/AuthService";
 import MapMarkerComponent from "../map_marker/MapMarkerComponent";
+import { ROLE } from "../../config/config"
 
 class FillAddrComponent extends Component {
     constructor(props) {
@@ -80,6 +82,14 @@ class FillAddrComponent extends Component {
                 DataService.riderCreateAddr(tripId, addr)
                     .then(response => {
                         console.log(response.data);
+                        AuthService.createAddrSuccessful(
+                            rider.surname,
+                            rider.givenName,
+                            ROLE.RIDER,
+                            addr.riderId,
+                            tripId,
+                            response.data.id
+                        );
                         this.props.history.push(`/rider/trip/${tripId}`);
                     })
                     .catch(e => console.log(e));

@@ -26,13 +26,21 @@ class AuthService {
         sessionStorage.setItem(USERID, userid);
     }
 
+    createAddrSuccessful(surname, givenName, role, userid, tripId, addrId) {
+        sessionStorage.setItem(GIVEN_NAME_SESSION_KEY, givenName);
+        sessionStorage.setItem(ROLE_SESSION_KEY, role);
+        sessionStorage.setItem(USERID, userid);
+        sessionStorage.setItem(TRIP_ID, tripId);
+        sessionStorage.setItem(ADDR_ID, addrId);
+    }
+
     getLoggedInUserId() {
         return sessionStorage.getItem(USERID);
     }
 
-    verificationSuccessful(tripId) {
-        sessionStorage.setItem(TRIP_ID, tripId);
-    }
+    // verificationSuccessful(tripId) {
+    //     sessionStorage.setItem(TRIP_ID, tripId);
+    // }
 }
 
 export default new AuthService();

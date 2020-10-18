@@ -16,6 +16,12 @@ class DriverLoginComponent extends Component {
         this.validate = this.validate.bind(this);
     }
 
+    componentDidMount() {
+        if (sessionStorage.getItem("role") && sessionStorage.getItem("role") === ROLE.DRIVER) {
+            this.props.history.push(`/driver/trip`);
+        }
+    }
+
     validate(values) {
         let errors = {};
 

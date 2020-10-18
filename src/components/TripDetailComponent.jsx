@@ -23,6 +23,7 @@ class TripDetailComponent extends Component {
                 <h4>Start time: {TimeUtils.toDisplayString(this.props.tripDetails.startTime)}</h4>
                 <h4>Passcode: <code>{this.props.tripDetails.passcode}</code></h4>
                 <h5>Total: {this.props.tripDetails.route.length}, Arrived: {this.props.tripDetails.route.filter(addr => addr.arrivalTime !== null).length}</h5>
+                {!this.props.tripDetails.isRouteUpToDate && <div class="alert alert-warning" role="alert">Still calculating route. Please use the bottom "Refresh" button to refresh.</div>}
                 {/* Important! Always set the container height explicitly */}
                 <div style={{ height: '50vh', width: '100%' }}>
                     <GoogleMapReact
@@ -31,7 +32,7 @@ class TripDetailComponent extends Component {
                         defaultZoom={this.props.zoom}
                     >
                         {this.props.tripDetails.route.map(
-                            (addr) => <MapMarkerComponent key={addr.id} lat={addr.lat} lng={addr.lng} text={addr.id.toString()} />
+                            (addr) => <MapMarkerComponent key={addr.id} lat={addr.lat} lng={addr.lng} text={this.props.tripDetails.route.indexOf(addr) + 1} />
                         )}
                     </GoogleMapReact>
                 </div>
