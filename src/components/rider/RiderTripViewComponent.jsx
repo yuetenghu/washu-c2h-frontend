@@ -38,6 +38,12 @@ class DriverTripViewComponent extends Component {
     }
 
     render() {
+        console.log(this.state.tripDetails);
+        if (this.state.tripDetails.isRouteUpToDate) {
+            this.state.tripDetails.route.sort(
+                (a, b) => a.seqId - b.seqId
+            );
+        }
         return (
             <>
                 {Object.keys(this.state.tripDetails).length > 0 && <TripDetailComponent {...this.state} />}
@@ -46,7 +52,8 @@ class DriverTripViewComponent extends Component {
                     <table className="table table-striped">
                         <thead>
                             <tr>
-                                <th>No</th>
+                            {this.state.tripDetails.isRouteUpToDate && <th>Seq</th>}
+                                {!this.state.tripDetails.isRouteUpToDate && <th>No</th>}
                                 <th>Address</th>
                                 <th>Status</th>
                             </tr>
@@ -55,8 +62,9 @@ class DriverTripViewComponent extends Component {
                             {this.state.tripDetails.route.map(
                                 (addr) =>
                                     <tr key={addr.id} className={(addr.hasArrived) ? "table-success" : ""}>
-                                        <td>{this.state.tripDetails.route.indexOf(addr) + 1}</td>
-                                        <td>{(addr.id === parseInt(sessionStorage.getItem("addrId"))) ? <button class="btn btn-outline-info btn-sm">You</button> : ""}<a target="_blank" rel="noopener noreferrer" href={`https://maps.google.com/?q=${addr.addr}`}>{addr.addr}</a></td>
+                                        {this.state.tripDetails.isRouteUpToDate && <td>{addr.seqId}</td>}
+                                        {!this.state.tripDetails.isRouteUpToDate && <td>{this.state.tripDetails.route.indexOf(addr) + 1}</td>}
+                                        <td>{(addr.id === parseInt(sessionStorage.getItem("addrId"))) ? <button className="btn btn-outline-info btn-sm">You</button> : ""}<a target="_blank" rel="noopener noreferrer" href={`https://maps.google.com/?q=${addr.addr}`}>{addr.addr}</a></td>
                                         <td>{(addr.hasArrived) ? "Arrived" : "En-route"}</td>
                                     </tr>
                             )}

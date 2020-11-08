@@ -48,7 +48,9 @@ class TripDetailComponent extends Component {
                         defaultZoom={this.props.zoom}
                     >
                         {this.props.tripDetails.route.map(
-                            (addr) => <MapMarkerComponent key={addr.id} lat={addr.lat} lng={addr.lng} text={this.props.tripDetails.route.indexOf(addr) + 1} />
+                            (addr) => <MapMarkerComponent key={addr.id} lat={addr.lat} lng={addr.lng} text={(
+                                this.props.tripDetails.isRouteUpToDate ? addr.seqId : this.props.tripDetails.route.indexOf(addr) + 1
+                                ).toString()} />
                         )}
                         {this.state.showCurrentPosition && <MapMarkerComponent lat={this.state.currentPosition.coords.latitude} lng={this.state.currentPosition.coords.longitude} text="X" />}
                     </GoogleMapReact>
