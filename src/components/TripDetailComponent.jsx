@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import GoogleMapReact from "google-map-react";
-import { GOOGLE_MAPS_API_KEY } from "../config/secret";
+// import { GOOGLE_MAPS_API_KEY } from "../config/secret";
 import MapMarkerComponent from "./map_marker/MapMarkerComponent";
 import TimeUtils from "../utils/TimeUtils";
 
@@ -43,7 +43,7 @@ class TripDetailComponent extends Component {
                 {/* Important! Always set the container height explicitly */}
                 <div style={{ height: '50vh', width: '100%' }}>
                     <GoogleMapReact
-                        bootstrapURLKeys={{ key: GOOGLE_MAPS_API_KEY }}
+                        bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY }}
                         defaultCenter={this.props.center}
                         defaultZoom={this.props.zoom}
                     >
