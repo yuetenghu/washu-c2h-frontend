@@ -47,6 +47,9 @@ class CreateTripComponent extends Component {
     }
 
     render() {
+        // console.log(this.state.minStartDatetime);
+        // console.log(TimeUtils.toLocalISOString(new Date(Date.now())).substring(0, 16));
+        let currTime = TimeUtils.toLocalISOString(new Date(Date.now())).substring(0, 16);
         let { startTime } = this.state;
         return (
             <>
@@ -66,7 +69,7 @@ class CreateTripComponent extends Component {
                                     <ErrorMessage name="startTime" component="div" className="alert alert-warning" />
                                     <fieldset className="form-group">
                                         <label>Start time</label>
-                                        <Field className="form-control" type="datetime-local" min={this.state.minStartDatetime} max={this.state.maxStartDatetime} name="startTime" />
+                                        <Field className="form-control" type="datetime-local" value={currTime} min={this.state.minStartDatetime} max={this.state.maxStartDatetime} name="startTime" />
                                     </fieldset>
                                     <a href="/rider/trip" className="m-1 btn btn-secondary">⇦ Back</a>
                                     <button className="m-1 btn btn-success" type="submit">Create</button>

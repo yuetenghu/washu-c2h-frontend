@@ -13,6 +13,7 @@ import FillFormComponent from "./rider/FillFormComponent";
 import FillAddrComponent from "./rider/FillAddrComponent";
 import RiderTripViewComponent from "./rider/RiderTripViewComponent";
 import LogOutComponent from "./LogOutComponent";
+import AboutComponent from "./AboutComponent"
 
 class C2hApp extends Component {
     render() {
@@ -34,6 +35,8 @@ class C2hApp extends Component {
                         <Route path="/rider/verify-trip" component={VerifyTripComponent} />
                         <Route path="/rider/fill-form" component={FillFormComponent} />
                         <Route path="/rider/fill-addr" component={FillAddrComponent} />
+
+                        <Route path="/about" component={AboutComponent} />
 
                         <Route component={ErrorComponent} />
                     </Switch>
